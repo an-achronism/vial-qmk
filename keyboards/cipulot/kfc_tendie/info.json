@@ -1,0 +1,31 @@
+{
+    "keyboard_name": "KFC_Tendie",
+    "url": "",
+    "maintainer": "Cipulot",
+    "layouts": {
+        "LAYOUT_default": {
+            "layout": [
+                {
+                    "label": "C",
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "label": "U",
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "label": "C",
+                    "x": 2,
+                    "y": 0
+                },
+                {
+                    "label": "K",
+                    "x": 3,
+                    "y": 0
+                }
+            ]
+        }
+    }
+}
