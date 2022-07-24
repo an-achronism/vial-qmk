@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COL_PINS { C7, C6, B6, B5, B4, D7, D6, D4, D5, D3, D2, D1 }
 #define MATRIX_ROW_PINS_RIGHT { F7, F6, F5, F4, F1, F0 }
 #define MATRIX_COL_PINS_RIGHT { C7, C6, B6, B5, B4, D7, D6, D4, D5, D3, D2, D1 }
-#define SPLIT_HAND_PIN F7
+#define SPLIT_HAND_PIN B7
 
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCE 5
