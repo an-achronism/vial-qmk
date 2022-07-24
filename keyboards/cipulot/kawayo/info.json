@@ -1,9 +1,9 @@
 {
     "keyboard_name": "Kawayo",
-    "url": "https://mecha.store/collections/keyboards/products/gb-kawayo",
+    "url": "https://mecha.store",
     "maintainer": "Cipulot",
     "layouts": {
-        "LAYOUT": {
+        "LAYOUT_default": {
             "layout": [
                 {
                     "label": "~",
