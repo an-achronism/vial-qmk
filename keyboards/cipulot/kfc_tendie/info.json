@@ -1,7 +1,13 @@
 {
-    "keyboard_name": "KFC_Tendie",
+    "keyboard_name": "KFC Tendie",
+    "manufacturer": "Cipulot",
     "url": "",
     "maintainer": "Cipulot",
+    "usb": {
+        "vid": "0x6369",
+        "pid": "0x6B80",
+        "device_version": "0.0.1"
+    },
     "layouts": {
         "LAYOUT_default": {
             "layout": [

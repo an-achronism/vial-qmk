@@ -15,9 +15,3 @@
  */
 
 #include "theca_topre.h"
-
-void keyboard_post_init_kb() {
-    keyboard_post_init_user();
-    // debug_enable = true;
-    // debug_matrix = true;
-}

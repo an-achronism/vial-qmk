@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-#define PRODUCT is0Topre (stm32)
-
 #define DISCHARGE_PIN A5
 #define ANALOG_PORT A2
 

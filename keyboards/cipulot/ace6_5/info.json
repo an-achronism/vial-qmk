@@ -1,8 +1,13 @@
 {
-    "name": "Ace 6.5",
+    "keyboard_name": "Ace 6.5",
+    "manufacturer": "Cipulot",
     "url": "",
-    "vendorId": "0x6369",
-    "productId": "0x6B70",
+    "maintainer": "Cipulot",
+    "usb": {
+        "vid": "0x6369",
+        "pid": "0x6B70",
+        "device_version": "0.0.1"
+    },
     "lighting": "none",
     "matrix": {
         "rows": 5,

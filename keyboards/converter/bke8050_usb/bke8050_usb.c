@@ -14,12 +14,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#define CH_CFG_ST_FREQUENCY 10000
-
-#define CH_CFG_OPTIMIZE_SPEED FALSE
-
-#define CH_CFG_USE_CONDVARS_TIMEOUT FALSE
-
-#include_next <chconf.h>
+#include "bke8050_usb.h"

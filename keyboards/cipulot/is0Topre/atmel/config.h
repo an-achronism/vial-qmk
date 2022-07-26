@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-#define PRODUCT is0Topre(32u4)
-
 #define DISCHARGE_PIN E6
 #define ANALOG_PORT D6
 

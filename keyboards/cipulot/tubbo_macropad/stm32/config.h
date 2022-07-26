@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-#define PRODUCT      TubboPad (STM32)
-
 #define MATRIX_ROW_PINS { B11, B13, A2, B1, B2, B10, B0, A7, A6, A5, A4, A3 }
 #define MATRIX_COL_PINS { B12, B14, B9, B7, B6, B5, B4, A1, A0, C15, C14, C13 }
 #define UNUSED_PINS

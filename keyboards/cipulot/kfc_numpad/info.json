@@ -1,7 +1,13 @@
 {
-    "keyboard_name": "KFC_Numpad",
+    "keyboard_name": "KFC Numpad",
+    "manufacturer": "Cipulot",
     "url": "",
     "maintainer": "Cipulot",
+    "usb": {
+        "vid": "0x6369",
+        "pid": "0x6B81",
+        "device_version": "0.0.1"
+    },
     "layouts": {
         "LAYOUT": {
             "layout": [

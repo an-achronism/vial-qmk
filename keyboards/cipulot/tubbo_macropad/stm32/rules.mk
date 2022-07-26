@@ -1,6 +1,8 @@
 # MCU name
 MCU = STM32F072
 
+BOARD = GENERIC_STM32_F072XB
+
 # Bootloader selection
 BOOTLOADER = stm32-dfu
 

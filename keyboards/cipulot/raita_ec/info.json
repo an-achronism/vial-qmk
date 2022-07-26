@@ -1,7 +1,14 @@
 {
     "keyboard_name": "Reica EC",
+    "manufacturer": "Cipulot",
     "url": "",
-    "maintainer": "cipulot",
+    "maintainer": "Cipulot",
+    "usb": {
+        "vid": "0x6369",
+        "pid": "0x6B83",
+        "device_version": "0.0.1"
+    },
+
     "layouts": {
         "LAYOUT_default": {
             "layout": [

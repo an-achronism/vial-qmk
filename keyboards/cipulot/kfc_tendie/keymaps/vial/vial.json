@@ -1,0 +1,22 @@
+{
+  "name": "KFC_Tendie",
+  "url": "",
+  "vendorId": "0x6369",
+  "productId": "0x6B80",
+  "maintainer": "Cipulot",
+  "lighting": "none",
+  "matrix": {
+    "rows": 1,
+    "cols": 4
+  },
+  "layouts": {
+    "keymap": [
+        [
+            "0,0",
+            "0,1",
+            "0,2",
+            "0,3"
+          ]
+    ]
+  }
+}

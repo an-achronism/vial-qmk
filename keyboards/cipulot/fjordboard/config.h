@@ -16,14 +16,6 @@
 
 #pragma once
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID    0x6369
-#define PRODUCT_ID   0x6B75
-#define DEVICE_VER   0x0001
-#define MANUFACTURER    Cipulot
-#define PRODUCT         Fjordboard
-#define DESCRIPTION     A 75%-ish keyboard
-
 /* key matrix size */
 #define MATRIX_ROWS 6
 #define MATRIX_COLS 14
@@ -39,12 +31,8 @@
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
 
-/* define if matrix has ghost (lacks anti-ghosting diodes) */
-//#define MATRIX_HAS_GHOST
-
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
+
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
-
-#define STM32_HSECLK 8000000

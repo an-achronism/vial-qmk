@@ -1,7 +1,13 @@
 {
     "keyboard_name": "Theca Topre",
+    "manufacturer": "Cipulot",
     "url": "",
-    "maintainer": "cipulot",
+    "maintainer": "Cipulot",
+    "usb": {
+        "vid": "0x6369",
+        "pid": "0x6B7E",
+        "device_version": "0.0.1"
+    },
     "layouts": {
         "LAYOUT_default": {
             "layout": [

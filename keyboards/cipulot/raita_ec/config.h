@@ -18,13 +18,6 @@
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID 0x6369
-#define PRODUCT_ID 0x6B83
-#define DEVICE_VER 0x0001
-#define MANUFACTURER Cipulot
-#define PRODUCT Raita EC
-
 /* key matrix size */
 #define MATRIX_ROWS 8
 #define MATRIX_COLS 1
