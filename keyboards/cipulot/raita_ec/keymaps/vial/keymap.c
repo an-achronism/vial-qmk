@@ -20,8 +20,8 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_default(
-        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-        KC_TRNS,  KC_TRNS,  KC_TRNS,  MO(1)),
+        KC_D,  KC_E, KC_E,  KC_Z,
+        KC_N,  KC_U, KC_T,  MO(1)),
 
     [1] = LAYOUT_default(
         RESET,    KC_TRNS,  KC_TRNS,  KC_TRNS,

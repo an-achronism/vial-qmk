@@ -41,13 +41,13 @@ static inline void charge_capacitor(uint8_t row) {
 }
 
 static inline void clear_all_row_pins(void) {
-    for (int row = 0; row < 6; row++) {
+    for (int row = 0; row < 8; row++) {
         writePinLow(row_pins[row]);
     }
 }
 
 static inline void init_row(void) {
-    for (int idx = 0; idx < 6; idx++) {
+    for (int idx = 0; idx < 8; idx++) {
         setPinOutput(row_pins[idx]);
         writePinLow(row_pins[idx]);
     }
