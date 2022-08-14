@@ -4,7 +4,7 @@
     "vendorId": "0x6369",
     "productId": "0x6B7A",
     "maintainer": "Cipulot",
-    "lighting": "qmk_backlight_rgblight",
+    "lighting": "qmk_rgblight",
     "matrix": {
         "rows": 6,
         "cols": 15
