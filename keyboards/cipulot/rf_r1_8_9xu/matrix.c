@@ -18,14 +18,6 @@
 #include "matrix.h"
 #include "debug.h"
 
-#ifndef LOW_THRESHOLD
-#    define LOW_THRESHOLD 350
-#endif
-
-#ifndef HIGH_THRESHOLD
-#    define HIGH_THRESHOLD 450
-#endif
-
 /* matrix state(1:on, 0:off) */
 extern matrix_row_t raw_matrix[MATRIX_ROWS]; // raw values
 extern matrix_row_t matrix[MATRIX_ROWS];     // debounced values

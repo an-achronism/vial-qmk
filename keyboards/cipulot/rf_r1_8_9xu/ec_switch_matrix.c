@@ -21,6 +21,14 @@
 #include "atomic_util.h"
 #include "print.h"
 
+#ifndef LOW_THRESHOLD
+#    define LOW_THRESHOLD 500
+#endif
+
+#ifndef HIGH_THRESHOLD
+#    define HIGH_THRESHOLD 850
+#endif
+
 #define WAIT_DISCHARGE()
 #define WAIT_CHARGE()
 
@@ -133,13 +141,15 @@ static bool ecsm_update_key(matrix_row_t* current_row, uint8_t row, uint8_t col,
     bool current_state = (*current_row >> col) & 1;
 
     // press to release
-    if (current_state && sw_value < config.low_threshold_matrix[row][col]) {
+    //if (current_state && sw_value < config.low_threshold_matrix[row][col]) {
+    if (current_state && sw_value < LOW_THRESHOLD) {
         *current_row &= ~(1 << col);
         return true;
     }
 
     // release to press
-    if ((!current_state) && sw_value > config.high_threshold_matrix[row][col]) {
+    //if ((!current_state) && sw_value > config.high_threshold_matrix[row][col]) {
+    if ((!current_state) && sw_value > HIGH_THRESHOLD) {
         *current_row |= (1 << col);
         return true;
     }
