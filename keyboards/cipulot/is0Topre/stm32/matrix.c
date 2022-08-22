@@ -19,11 +19,11 @@
 #include "debug.h"
 
 #ifndef LOW_THRESHOLD
-#    define LOW_THRESHOLD 250
+#    define LOW_THRESHOLD 100
 #endif
 
 #ifndef HIGH_THRESHOLD
-#    define HIGH_THRESHOLD 260
+#    define HIGH_THRESHOLD 200
 #endif
 
 
