@@ -33,9 +33,9 @@
     { B0, A3, A2, A1, B7, B5 }  // cols are from right to left to match the layout
 
 #define ENCODERS_PAD_A \
-    { A0 }
-#define ENCODERS_PAD_B \
     { B8 }
+#define ENCODERS_PAD_B \
+    { A0 }
 #define ENCODER_RESOLUTIONS \
     { 4 }
 
