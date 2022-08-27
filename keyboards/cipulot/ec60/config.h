@@ -24,7 +24,7 @@
 
 /* Custom matrix pins and port select array */
 #define MATRIX_ROW_PINS \
-    { A8, A9, B0, A7, B1 }
+    { B15, A8, B0, A7, B1 }
 #define MATRIX_COL_CHANNELS \
     { 0, 3, 1, 2, 5, 7, 6, 4 }
 #define MUX_SEL_PINS \
