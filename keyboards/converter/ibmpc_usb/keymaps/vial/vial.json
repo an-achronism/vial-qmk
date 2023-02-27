@@ -8,11 +8,11 @@
         "labels": [
             [
                 "Layout",
-                "Full-Key",
-                "Televideo DEC",
-                "122-key terminal",
-                "84-key AT",
-                "83-key XT"
+                "IBM Enhanced, expanded",
+                "DEC VT220",
+                "IBM 3270 PC",
+                "IBM PC/AT",
+                "IBM PC"
             ]
         ],
         "keymap": [

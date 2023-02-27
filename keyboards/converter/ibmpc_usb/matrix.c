@@ -367,13 +367,13 @@ uint8_t matrix_scan(void)
                 case PC_XT:
                     break;
                 case PC_AT:
-                    led_set(host_keyboard_leds());
+                    // led_set(host_keyboard_leds()); // DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
                     break;
                 case PC_TERMINAL:
                     // Set all keys to make/break type
                     ibmpc_host_send(0xF8);
                     // This should not be harmful
-                    led_set(host_keyboard_leds());
+                    // led_set(host_keyboard_leds()); // DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
                     break;
                 default:
                     break;
@@ -519,54 +519,55 @@ bool matrix_has_ghost_in_row(uint8_t row)
 }
 #endif
 
-void led_set(uint8_t usb_led)
-{
-    uint8_t ibmpc_led = 0;
-//    if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
-//        DDRF |= (1<<7);
-//        PORTF |= (1<<7);
-//    } else {
-//        DDRF &= ~(1<<7);
-//        PORTF &= ~(1<<7);
-//    }
-//    if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
-//        DDRF |= (1<<6);
-//        PORTF |= (1<<6);
-//    } else {
-//        DDRF &= ~(1<<6);
-//        PORTF &= ~(1<<6);
-//    }
-//    if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
-//        DDRF |= (1<<5);
-//        PORTF |= (1<<5);
-//    } else {
-//        DDRF &= ~(1<<5);
-//        PORTF &= ~(1<<5);
-//    }
-    // Sending before keyboard recognition may be harmful for XT keyboard
-    if (keyboard_kind == NONE) return;
+// DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
+// void led_set(uint8_t usb_led)
+// {
+//     uint8_t ibmpc_led = 0;
+// //    if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
+// //        DDRF |= (1<<7);
+// //        PORTF |= (1<<7);
+// //    } else {
+// //        DDRF &= ~(1<<7);
+// //        PORTF &= ~(1<<7);
+// //    }
+// //    if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
+// //        DDRF |= (1<<6);
+// //        PORTF |= (1<<6);
+// //    } else {
+// //        DDRF &= ~(1<<6);
+// //        PORTF &= ~(1<<6);
+// //    }
+// //    if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
+// //        DDRF |= (1<<5);
+// //        PORTF |= (1<<5);
+// //    } else {
+// //        DDRF &= ~(1<<5);
+// //        PORTF &= ~(1<<5);
+// //    }
+//     // Sending before keyboard recognition may be harmful for XT keyboard
+//     if (keyboard_kind == NONE) return;
 
-    // XT keyobard doesn't support any command and it is harmful perhaps
-    // https://github.com/tmk/tmk_keyboard/issues/635#issuecomment-626993437
-    if (keyboard_kind == PC_XT) return;
+//     // XT keyobard doesn't support any command and it is harmful perhaps
+//     // https://github.com/tmk/tmk_keyboard/issues/635#issuecomment-626993437
+//     if (keyboard_kind == PC_XT) return;
 
-    // It should be safe to send the command to keyboards with AT protocol
-    // - IBM Terminal doesn't support the command and response with 0xFE but it is not harmful.
-    // - Some other Terminals like G80-2551 supports the command.
-    //   https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
+//     // It should be safe to send the command to keyboards with AT protocol
+//     // - IBM Terminal doesn't support the command and response with 0xFE but it is not harmful.
+//     // - Some other Terminals like G80-2551 supports the command.
+//     //   https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
 
-    // TODO: PC_TERMINAL_IBM_RT support
-    if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
-    }
-    if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
-    }
-    if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
-    }
-    ibmpc_host_set_led(ibmpc_led);
-}
+//     // TODO: PC_TERMINAL_IBM_RT support
+//     if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
+//         ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
+//     }
+//     if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
+//         ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
+//     }
+//     if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
+//         ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
+//     }
+//     ibmpc_host_set_led(ibmpc_led);
+// }
 
 
 /*******************************************************************************

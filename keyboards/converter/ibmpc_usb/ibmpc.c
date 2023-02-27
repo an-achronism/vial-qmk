@@ -419,10 +419,10 @@ void ibmpc_interrupt_service_routine(void);
 void palCallback(void *arg) { ibmpc_interrupt_service_routine(); }
 #endif
 
-/* send LED state to keyboard */
-void ibmpc_host_set_led(uint8_t led)
-{
-    if (0xFA == ibmpc_host_send(0xED)) {
-        ibmpc_host_send(led);
-    }
-}
+/* send LED state to keyboard; DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER */
+// void ibmpc_host_set_led(uint8_t led)
+// {
+//     if (0xFA == ibmpc_host_send(0xED)) {
+//         ibmpc_host_send(led);
+//     }
+// }
