@@ -1,5 +1,5 @@
 {
-    "keyboard_name": "IBM keyboard USB converter",
+    "keyboard_name": "IBM keyboard protocol converter",
     "url": "https://github.com/an-achronism/vial-qmk/tree/ibm",
     "maintainer": "an-achronism",
     "layouts": {
