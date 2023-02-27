@@ -539,15 +539,15 @@ void led_set(uint8_t usb_led)
      * is probably wise to avoid sending any to avoid any risk of damage:
      * https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
      * 
-     * Therefore, if keyboard is speaking original IBM PC ("XT") protocol, write
-     * LED state directly to Soarer/TMK-compatible LED indicator pins on the
-     * converter and do not send the 0xED command byte to keyboard.
+     * Therefore, if keyboard is speaking original IBM PC ("XT") protocol, do 
+     * not send the 0xED command byte to keyboard. Instead, write LED state
+     * directly to LED indicator pins on the converter, if defined.
      * 
      * If keyboard is not (yet) identified, do nothing, to avoid potentially
      * sending 0xED to an as-yet-unidentified "XT" keyboard.
      * 
      * Otherwise, send 0xED to test whether the keyboard has LEDs or not (IBM
-     * terminal keyboards do not, but others do, e.g. Cherry G80-2551):
+     * terminal keyboards do not, but others do, e.g. Cherry G80-2551).
      */
     if (keyboard_kind == NONE) return;
     if (keyboard_kind == PC_XT) {

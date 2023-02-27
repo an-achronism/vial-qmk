@@ -436,8 +436,9 @@ void ibmpc_converter_set_leds(led_t leds)
 /* Send lock status indicator LED state to keyboard, if keyboard supports it: */
 void ibmpc_host_set_led(uint8_t led, led_t leds)
 {
-    if (0xFA == ibmpc_host_send(0xED)) {
+    if (ibmpc_host_send(IBMPC_SET_LED) == IBMPC_ACK) {
         ibmpc_host_send(led);
-    }
+    } else {
     ibmpc_converter_set_leds(leds);
+    }
 }
