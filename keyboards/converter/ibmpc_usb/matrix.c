@@ -527,10 +527,12 @@ void led_set(uint8_t usb_led)
     if (usb_led & (1<<USB_LED_SCROLL_LOCK)) {
         ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
         leds.scroll_lock = ibmpc_led;
-    } else if (usb_led & (1<<USB_LED_NUM_LOCK)) {
+    }
+    if (usb_led & (1<<USB_LED_NUM_LOCK)) {
         ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
         leds.num_lock = ibmpc_led;
-    } else if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+    }
+    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
         ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
         leds.caps_lock = ibmpc_led;
     }
