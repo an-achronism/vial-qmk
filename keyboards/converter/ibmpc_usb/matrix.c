@@ -367,13 +367,13 @@ uint8_t matrix_scan(void)
                 case PC_XT:
                     break;
                 case PC_AT:
-                    // led_set(host_keyboard_leds()); // DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
+                    led_set(host_keyboard_leds());
                     break;
                 case PC_TERMINAL:
                     // Set all keys to make/break type
                     ibmpc_host_send(0xF8);
                     // This should not be harmful
-                    // led_set(host_keyboard_leds()); // DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
+                    led_set(host_keyboard_leds());
                     break;
                 default:
                     break;
@@ -519,56 +519,43 @@ bool matrix_has_ghost_in_row(uint8_t row)
 }
 #endif
 
-// DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER
-// void led_set(uint8_t usb_led)
-// {
-//     uint8_t ibmpc_led = 0;
-// //    if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
-// //        DDRF |= (1<<7);
-// //        PORTF |= (1<<7);
-// //    } else {
-// //        DDRF &= ~(1<<7);
-// //        PORTF &= ~(1<<7);
-// //    }
-// //    if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
-// //        DDRF |= (1<<6);
-// //        PORTF |= (1<<6);
-// //    } else {
-// //        DDRF &= ~(1<<6);
-// //        PORTF &= ~(1<<6);
-// //    }
-// //    if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
-// //        DDRF |= (1<<5);
-// //        PORTF |= (1<<5);
-// //    } else {
-// //        DDRF &= ~(1<<5);
-// //        PORTF &= ~(1<<5);
-// //    }
-//     // Sending before keyboard recognition may be harmful for XT keyboard
-//     if (keyboard_kind == NONE) return;
+void led_set(uint8_t usb_led)
+{
+    uint8_t ibmpc_led = 0;
+    led_t leds = {0};
 
-//     // XT keyobard doesn't support any command and it is harmful perhaps
-//     // https://github.com/tmk/tmk_keyboard/issues/635#issuecomment-626993437
-//     if (keyboard_kind == PC_XT) return;
-
-//     // It should be safe to send the command to keyboards with AT protocol
-//     // - IBM Terminal doesn't support the command and response with 0xFE but it is not harmful.
-//     // - Some other Terminals like G80-2551 supports the command.
-//     //   https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
-
-//     // TODO: PC_TERMINAL_IBM_RT support
-//     if (usb_led &  (1<<USB_LED_SCROLL_LOCK)) {
-//         ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
-//     }
-//     if (usb_led &  (1<<USB_LED_NUM_LOCK)) {
-//         ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
-//     }
-//     if (usb_led &  (1<<USB_LED_CAPS_LOCK)) {
-//         ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
-//     }
-//     ibmpc_host_set_led(ibmpc_led);
-// }
-
+    if (usb_led & (1<<USB_LED_SCROLL_LOCK)) {
+        ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
+        leds.scroll_lock = ibmpc_led;
+    } else if (usb_led & (1<<USB_LED_NUM_LOCK)) {
+        ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
+        leds.num_lock = ibmpc_led;
+    } else if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+        ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
+        leds.caps_lock = ibmpc_led;
+    }
+    /* IBM PC and PC/XT keyboards only support one-way communication, so they
+     * are not designed to receive any command signals from the computer and it
+     * is probably wise to avoid sending any to avoid any risk of damage:
+     * https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
+     * 
+     * Therefore, if keyboard is speaking original IBM PC ("XT") protocol, write
+     * LED state directly to Soarer/TMK-compatible LED indicator pins on the
+     * converter and do not send the 0xED command byte to keyboard.
+     * 
+     * If keyboard is not (yet) identified, do nothing, to avoid potentially
+     * sending 0xED to an as-yet-unidentified "XT" keyboard.
+     * 
+     * Otherwise, send 0xED to test whether the keyboard has LEDs or not (IBM
+     * terminal keyboards do not, but others do, e.g. Cherry G80-2551):
+     */
+    if (keyboard_kind == NONE) return;
+    if (keyboard_kind == PC_XT) {
+        ibmpc_converter_set_leds(leds);
+    } else {
+        ibmpc_host_set_led(ibmpc_led, leds);
+    }
+}
 
 /*******************************************************************************
  * XT: Scan Code Set 1

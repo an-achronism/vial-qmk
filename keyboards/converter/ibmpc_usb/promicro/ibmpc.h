@@ -45,7 +45,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <util/atomic.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
-
+#include <quantum.h>
 
 /*
  * IBM PC keyboard protocol
@@ -108,7 +108,8 @@ int16_t ibmpc_host_send(uint8_t data);
 int16_t ibmpc_host_recv_response(void);
 int16_t ibmpc_host_recv(void);
 void ibmpc_host_isr_clear(void);
-void ibmpc_host_set_led(uint8_t usb_led);
+void ibmpc_converter_set_leds(led_t leds);
+void ibmpc_host_set_led(uint8_t usb_led, led_t leds);
 
 
 /*--------------------------------------------------------------------

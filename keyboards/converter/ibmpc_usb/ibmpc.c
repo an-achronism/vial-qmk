@@ -419,10 +419,25 @@ void ibmpc_interrupt_service_routine(void);
 void palCallback(void *arg) { ibmpc_interrupt_service_routine(); }
 #endif
 
-/* send LED state to keyboard; DISABLE IF WIRING LEDS DIRECTLY TO CONVERTER */
-// void ibmpc_host_set_led(uint8_t led)
-// {
-//     if (0xFA == ibmpc_host_send(0xED)) {
-//         ibmpc_host_send(led);
-//     }
-// }
+/* Send lock status indicator LED state to converter: */
+void ibmpc_converter_set_leds(led_t leds)
+{
+    #ifdef LED_NUM_LOCK_PIN
+    writePin(LED_NUM_LOCK_PIN, leds.num_lock);
+    #endif
+    #ifdef LED_CAPS_LOCK_PIN
+    writePin(LED_CAPS_LOCK_PIN, leds.caps_lock);
+    #endif
+    #ifdef LED_SCROLL_LOCK_PIN
+    writePin(LED_SCROLL_LOCK_PIN, leds.scroll_lock);
+    #endif
+}
+
+/* Send lock status indicator LED state to keyboard, if keyboard supports it: */
+void ibmpc_host_set_led(uint8_t led, led_t leds)
+{
+    if (0xFA == ibmpc_host_send(0xED)) {
+        ibmpc_host_send(led);
+    }
+    ibmpc_converter_set_leds(leds);
+}
