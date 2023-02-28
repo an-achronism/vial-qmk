@@ -521,48 +521,23 @@ bool matrix_has_ghost_in_row(uint8_t row)
 
 void led_set(uint8_t usb_leds)
 {
-    /* The USB HID and IBM PC/AT protocols both set keyboards' lock indicators
-     * by sending a single byte in which all of the locks' state are represented
-     * by one bit each. These are defined in led.h and ibmpc.h respectively
-     * (e.g. Scroll Lock state is in bit 2 for USB HID and bit 0 for IBM PC/AT).
-     * 
-     * This following reconfigures the LED state byte from USB HID into the
-     * appropriate syntax for IBM PC/AT, constructing the whole byte to send to
-     * the "keyboard". In this implementation, that will only be the actual
-     * keyboard if it speaks an appropriate bidirectional protocol. Otherwise,
-     * the individual bits representing the state of each LED will be extracted
-     * from the IBM-format byte and used to set the states of the LEDs on the
-     * converter instead.
-     */
-    uint8_t ibm_leds = 0;
-    // If the keyboard has not yet been identified, do nothing:
-    if (keyboard_kind == NONE) return;
-    
-    if (usb_leds & (1 << USB_LED_SCROLL_LOCK)) {
-        ibm_leds |= (1 << IBMPC_LED_SCROLL_LOCK);
-    }
-    if (usb_leds & (1 << USB_LED_NUM_LOCK)) {
-        ibm_leds |= (1 << IBMPC_LED_NUM_LOCK);
-    }
-    if (usb_leds & (1 << USB_LED_CAPS_LOCK)) {
-        ibm_leds |= (1 << IBMPC_LED_CAPS_LOCK);
-    }
     /* IBM PC and PC/XT keyboards only support one-way communication, so they
      * are not designed to receive any command signals from the computer and it
-     * is probably wise to avoid sending any to avoid any risk of damage:
+     * is probably wise to avoid sending any:
      * https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
      * 
-     * Therefore, if keyboard is speaking original IBM PC ("XT") protocol, do 
-     * not send the 0xED command byte to keyboard. Instead, write LED state
-     * directly to LED indicator pins on the converter, if defined.
-     * 
+     * My strategy is therefore as follows. If the keyboard is not yet
+     * identified, do nothing. If it is communicating via the original IBM PC
+     * ("XT") protocol, do not send the 0xED command byte to keyboard, but write
+     * LED state directly to LED indicator pins on the converter, if defined.
      * Otherwise, send 0xED to determine whether keyboard has LEDs (IBM terminal
      * boards don't, but others do, e.g. Cherry G80-2551).
      */
+    if (keyboard_kind == NONE) return;
     if (keyboard_kind == PC_XT) {
-        ibmpc_converter_set_leds(ibm_leds);
+        ibmpc_converter_set_leds(usb_leds);
     } else {
-        ibmpc_host_set_led(ibm_leds);
+        ibmpc_host_set_led(usb_leds);
     }
 }
 
