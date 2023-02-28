@@ -420,25 +420,25 @@ void palCallback(void *arg) { ibmpc_interrupt_service_routine(); }
 #endif
 
 /* Send lock status indicator LED state to converter: */
-void ibmpc_converter_set_leds(led_t leds)
+void ibmpc_converter_set_leds(uint8_t ibm_leds)
 {
     #ifdef LED_NUM_LOCK_PIN
-    writePin(LED_NUM_LOCK_PIN, leds.num_lock);
+    writePin(LED_NUM_LOCK_PIN, (ibm_leds >> IBMPC_LED_NUM_LOCK) & 1);
     #endif
     #ifdef LED_CAPS_LOCK_PIN
-    writePin(LED_CAPS_LOCK_PIN, leds.caps_lock);
+    writePin(LED_CAPS_LOCK_PIN, (ibm_leds >> IBMPC_LED_CAPS_LOCK) & 1);
     #endif
     #ifdef LED_SCROLL_LOCK_PIN
-    writePin(LED_SCROLL_LOCK_PIN, leds.scroll_lock);
+    writePin(LED_SCROLL_LOCK_PIN, (ibm_leds >> IBMPC_LED_SCROLL_LOCK) & 1);
     #endif
 }
 
 /* Send lock status indicator LED state to keyboard, if keyboard supports it: */
-void ibmpc_host_set_led(uint8_t led, led_t leds)
+void ibmpc_host_set_led(uint8_t ibm_leds)
 {
     if (ibmpc_host_send(IBMPC_SET_LED) == IBMPC_ACK) {
-        ibmpc_host_send(led);
+        ibmpc_host_send(ibm_leds);
     } else {
-    ibmpc_converter_set_leds(leds);
+    ibmpc_converter_set_leds(ibm_leds);
     }
 }

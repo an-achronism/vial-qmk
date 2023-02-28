@@ -519,22 +519,32 @@ bool matrix_has_ghost_in_row(uint8_t row)
 }
 #endif
 
-void led_set(uint8_t usb_led)
+void led_set(uint8_t usb_leds)
 {
-    uint8_t ibmpc_led = 0;
-    led_t leds = {0};
+    uint8_t ibm_leds = 0;
 
-    if (usb_led & (1<<USB_LED_SCROLL_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_SCROLL_LOCK);
-        leds.scroll_lock = ibmpc_led;
+    /* The USB HID and IBM PC/AT protocols both set keyboards' lock indicators
+     * by sending a single byte in which all of the locks' state are represented
+     * by one bit each. These are defined in led.h and ibmpc.h respectively
+     * (e.g. Scroll Lock state is contained in bit 2 for USB HID and bit 0 for
+     * IBM PC/AT).
+     * 
+     * This function reconfigures the LED state byte from USB HID into the
+     * appropriate syntax for IBM PC/AT, constructing the whole byte to send to
+     * the "keyboard". In this implementation, that will only be the actual
+     * keyboard if it speaks an appropriate bidirectional protocol. Otherwise,
+     * the individual bits representing the state of each LED will be extracted
+     * from the IBM-format byte and used to set the states of the LEDs on the
+     * converter instead.
+    */
+    if (usb_leds & (1 << USB_LED_SCROLL_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_SCROLL_LOCK);
     }
-    if (usb_led & (1<<USB_LED_NUM_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_NUM_LOCK);
-        leds.num_lock = ibmpc_led;
+    if (usb_leds & (1 << USB_LED_NUM_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_NUM_LOCK);
     }
-    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
-        ibmpc_led |= (1<<IBMPC_LED_CAPS_LOCK);
-        leds.caps_lock = ibmpc_led;
+    if (usb_leds & (1 << USB_LED_CAPS_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_CAPS_LOCK);
     }
     /* IBM PC and PC/XT keyboards only support one-way communication, so they
      * are not designed to receive any command signals from the computer and it
@@ -553,9 +563,9 @@ void led_set(uint8_t usb_led)
      */
     if (keyboard_kind == NONE) return;
     if (keyboard_kind == PC_XT) {
-        ibmpc_converter_set_leds(leds);
+        ibmpc_converter_set_leds(ibm_leds);
     } else {
-        ibmpc_host_set_led(ibmpc_led, leds);
+        ibmpc_host_set_led(ibm_leds);
     }
 }
 
