@@ -1,11 +1,11 @@
 /*
-Copyright 2010,2011,2012,2013,2019 Jun WAKO <wakojun@gmail.com>
+Copyright 2010, 2011, 2012, 2013, 2019 Jun Wako <wakojun@gmail.com>,
+2023 an_achronism <87213873+an-achronism@users.noreply.github.com>
 
 This software is licensed with a Modified BSD License.
 All of this is supposed to be Free Software, Open Source, DFSG-free,
 GPL-compatible, and OK to use in both free and proprietary applications.
 Additions and corrections to this file are welcome.
-
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

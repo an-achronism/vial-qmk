@@ -1,6 +1,7 @@
 /*
 Copyright 2011 Jun Wako <wakojun@gmail.com>,
-2021 Markus Fritsche <fritsche.markus@gmail.com>
+2021 Markus Fritsche <fritsche.markus@gmail.com>,
+2023 an_achronism <87213873+an-achronism@users.noreply.github.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,11 +1,11 @@
 /*
-Copyright 2010,2011,2012,2013,2019 Jun WAKO <wakojun@gmail.com>
+Copyright 2010, 2011, 2012, 2013, 2019 Jun Wako <wakojun@gmail.com>,
+2023 an_achronism <87213873+an-achronism@users.noreply.github.com>
 
 This software is licensed with a Modified BSD License.
 All of this is supposed to be Free Software, Open Source, DFSG-free,
 GPL-compatible, and OK to use in both free and proprietary applications.
 Additions and corrections to this file are welcome.
-
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <util/atomic.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
-
+#include <quantum.h>
 
 /*
  * IBM PC keyboard protocol
@@ -96,7 +96,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #define IBMPC_LED_NUM_LOCK    1
 #define IBMPC_LED_CAPS_LOCK   2
 
-
 extern volatile uint16_t ibmpc_isr_debug;
 extern volatile uint8_t ibmpc_protocol;
 extern volatile uint8_t ibmpc_error;
@@ -108,8 +107,8 @@ int16_t ibmpc_host_send(uint8_t data);
 int16_t ibmpc_host_recv_response(void);
 int16_t ibmpc_host_recv(void);
 void ibmpc_host_isr_clear(void);
-void ibmpc_host_set_led(uint8_t usb_led);
-
+void ibmpc_converter_set_leds(uint8_t usb_leds);
+void ibmpc_host_set_led(uint8_t usb_leds);
 
 /*--------------------------------------------------------------------
  * static functions

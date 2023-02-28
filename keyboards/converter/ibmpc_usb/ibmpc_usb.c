@@ -29,9 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ibmpc_usb.h"
-
 #include "unimap.h"
-
 
 /*
  * Scan Code Set 1:
