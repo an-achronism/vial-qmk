@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ibmpc_usb.h"
 #include "ibmpc.h"
 #include "matrix.h"
+#include "quantum.h"
 
 #define print_matrix_row(row)  print_bin_reverse8(matrix_get_row(row))
 #define print_matrix_header()  print("\nr/c 01234567\n")
@@ -525,20 +526,21 @@ void led_set(uint8_t usb_leds)
     /* IBM PC and PC/XT keyboards only support one-way communication, so they
      * are not designed to receive any command signals from the computer and it
      * is probably wise to avoid sending any:
-     * https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
+     * https://github.com/tmk/tmk_keyboard/issues/635#issuecomment-626993437
      * 
      * My strategy is therefore as follows. If the keyboard is not yet
      * identified, do nothing. If it is communicating via the original IBM PC
      * ("XT") protocol, do not send the 0xED command byte to keyboard, but write
      * LED state directly to LED indicator pins on the converter, if defined.
-     * Otherwise, send 0xED to determine whether keyboard has LEDs (IBM terminal
-     * boards don't, but others do, e.g. Cherry G80-2551).
+     * Otherwise, send 0xED to determine whether keyboard has LEDs. IBM terminal
+     * boards don't, but others do, e.g. Cherry G80-2551:
+     * https://geekhack.org/index.php?topic=103648.msg2894921#msg2894921
      */
     if (keyboard_kind == NONE) return;
     if (keyboard_kind == PC_XT) {
-        ibmpc_converter_set_leds(usb_leds);
+        ibmpc_usb_set_leds(usb_leds);
     } else {
-        ibmpc_host_set_led(usb_leds);
+        ibmpc_host_set_leds(usb_leds);
     }
 }
 

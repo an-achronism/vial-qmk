@@ -41,6 +41,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include "ibmpc.h"
+#include "ibmpc_usb.h"
 #include "debug.h"
 #include "timer.h"
 #include "wait.h"
@@ -52,7 +53,6 @@ POSSIBILITY OF SUCH DAMAGE.
         goto ERROR; \
     } \
 } while (0)
-
 
 volatile uint16_t ibmpc_isr_debug = 0;
 volatile uint8_t ibmpc_protocol = IBMPC_PROTOCOL_NO;
@@ -419,25 +419,8 @@ void ibmpc_interrupt_service_routine(void);
 void palCallback(void *arg) { ibmpc_interrupt_service_routine(); }
 #endif
 
-/* Send lock status indicator LED state to converter: */
-void ibmpc_converter_set_leds(uint8_t usb_leds)
-{
-    /* This extracts the individual bits representing each lock state and uses
-     * them to update indicator LEDs on the converter itself.
-     */
-    #ifdef LED_NUM_LOCK_PIN
-    writePin(LED_NUM_LOCK_PIN, (usb_leds >> USB_LED_NUM_LOCK) & 1);
-    #endif
-    #ifdef LED_CAPS_LOCK_PIN
-    writePin(LED_CAPS_LOCK_PIN, (usb_leds >> USB_LED_CAPS_LOCK) & 1);
-    #endif
-    #ifdef LED_SCROLL_LOCK_PIN
-    writePin(LED_SCROLL_LOCK_PIN, (usb_leds >> USB_LED_SCROLL_LOCK) & 1);
-    #endif
-}
-
 /* Send lock status indicator LED state to keyboard, if keyboard supports it: */
-void ibmpc_host_set_led(uint8_t usb_leds)
+void ibmpc_host_set_leds(uint8_t usb_leds)
 {
     /* The USB HID and IBM PC/AT protocols both set keyboards' lock indicators
      * by sending a single byte in which all of the lock states are represented
@@ -445,24 +428,16 @@ void ibmpc_host_set_led(uint8_t usb_leds)
      * (e.g. Scroll Lock state is in bit 2 for USB HID and bit 0 for IBM PC/AT).
      * 
      * The following checks whether a given keyboard is able to handle commands
-     * to update its lock indicator LED states, then if so, reconfigures the LED
+     * to update its lock indicator LED states, then if so, translates the LED
      * state byte from USB HID into the appropriate order for IBM PC/AT and
      * sends it to the keyboard. Otherwise, the byte will be passed on to the
-     * converter's own LED state setter above.
+     * converter's own LED state setter.
      */
     if (ibmpc_host_send(IBMPC_SET_LED) == IBMPC_ACK) {
-        uint8_t ibm_leds = 0;
-        if (usb_leds & (1 << USB_LED_SCROLL_LOCK)) {
-            ibm_leds |= (1 << IBMPC_LED_SCROLL_LOCK);
-        }
-        if (usb_leds & (1 << USB_LED_NUM_LOCK)) {
-            ibm_leds |= (1 << IBMPC_LED_NUM_LOCK);
-        }
-        if (usb_leds & (1 << USB_LED_CAPS_LOCK)) {
-            ibm_leds |= (1 << IBMPC_LED_CAPS_LOCK);
-        }
-        ibmpc_host_send(ibm_leds);
+        ibmpc_host_send(
+            ibmpc_usb_led_translate(usb_leds)
+        );
     } else {
-    ibmpc_converter_set_leds(usb_leds);
+        ibmpc_usb_set_leds(usb_leds);
     }
 }

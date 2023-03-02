@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 #include "unimap.h"
+#include "ibmpc.h"
 #define XXX KC_NO
 
 
@@ -113,4 +114,5 @@ extern const uint8_t PROGMEM unimap_cs1[MATRIX_ROWS][MATRIX_COLS];
 extern const uint8_t PROGMEM unimap_cs2[MATRIX_ROWS][MATRIX_COLS];
 extern const uint8_t PROGMEM unimap_cs3[MATRIX_ROWS][MATRIX_COLS];
 
-
+void ibmpc_usb_set_leds(uint8_t usb_leds);
+uint8_t ibmpc_usb_led_translate(uint8_t usb_leds);

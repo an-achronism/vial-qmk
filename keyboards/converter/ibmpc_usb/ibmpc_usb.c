@@ -233,3 +233,35 @@ const uint8_t PROGMEM unimap_cs3[MATRIX_ROWS][MATRIX_COLS] = {
     { UNIMAP_P0,    UNIMAP_PDOT,  UNIMAP_P2,    UNIMAP_P5,    UNIMAP_P6,    UNIMAP_P8,    UNIMAP_ESC,   UNIMAP_NLCK,    /* 70-77 */
       UNIMAP_PEQL,  UNIMAP_PENT,  UNIMAP_P3,    UNIMAP_PMNS,  UNIMAP_PPLS,  UNIMAP_P9,    UNIMAP_SLCK,  UNIMAP_PAST  }, /* 78-7F */
 };
+
+uint8_t ibmpc_usb_led_translate(uint8_t usb_leds)
+{
+    uint8_t ibm_leds = 0;
+    if (usb_leds & (1 << USB_LED_SCROLL_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_SCROLL_LOCK);
+    }
+    if (usb_leds & (1 << USB_LED_NUM_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_NUM_LOCK);
+    }
+    if (usb_leds & (1 << USB_LED_CAPS_LOCK)) {
+        ibm_leds |= (1 << IBMPC_LED_CAPS_LOCK);
+    }
+    return ibm_leds;
+}
+
+/* Send lock status indicator LED state to converter: */
+void ibmpc_usb_set_leds(uint8_t usb_leds)
+{
+    /* This extracts the individual bits representing each lock state and uses
+     * them to update indicator LEDs on the converter itself.
+     */
+    #ifdef LED_NUM_LOCK_PIN
+    writePin(LED_NUM_LOCK_PIN, (usb_leds >> USB_LED_NUM_LOCK) & 1);
+    #endif
+    #ifdef LED_CAPS_LOCK_PIN
+    writePin(LED_CAPS_LOCK_PIN, (usb_leds >> USB_LED_CAPS_LOCK) & 1);
+    #endif
+    #ifdef LED_SCROLL_LOCK_PIN
+    writePin(LED_SCROLL_LOCK_PIN, (usb_leds >> USB_LED_SCROLL_LOCK) & 1);
+    #endif
+}
